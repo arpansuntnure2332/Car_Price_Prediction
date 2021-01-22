@@ -1,164 +1,282 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+	<title></title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </head>
-
 <body>
+<marquee> <h1 class="text-white text-center font-weight-bold bg-success" style="font-size: 55px;"> Car Price Prediction </h1></marquee>
 
-    <div style="color:black">
-        <form action="{{ url_for('predict')}}" method="post">
-            <h2>Car Price Prediction</h2>
-            <h3>Purchase Year</h3>
-            <input id="first" name="Year" type="number ">
-            <h3>Kilometers Driven?</h3><input id="third" name="Kms_Driven" required="required">
-            <h3>Mileage(Kmpl or Km/kg)?</h3><input id="third" name="Mileage" required="required">
-            <h3>Engine(CC)?</h3><input id="third" name="Engine" required="required">
-            <h3>Max Power(bhp)?</h3><input id="third" name="Max_Power" required="required">
-            <h3>No of Seats?</h3><input id="third" name="Seats" required="required">
-            <h3>Torque(Nm)?</h3><input id="third" name="Torque_Nm" required="required">
-            <h3>Fuel Type?</h3><br><select name="Fuel_Type_Petrol" id="fuel" required="required">
-                <option value="Petrol">Petrol</option>
-                <option value="Diesel">Diesel</option>
-                <option value="CNG">CNG</option>
-                <option value="LPG">LPG</option>
-            </select>
-            <h3>Are you A Dealer or Individual?</h3><br><select name="Seller_Type_Individual" id="resea" required="required">
-                <option value="Dealer">Dealer</option>
-                <option value="Individual">Individual</option>
-                <option value="Trustmark Dealer">Trust_Dealer</option>
-            </select>
-            <h3>Transmission Type</h3><br><select name="Transmission_Mannual" id="research" required="required">
-                <option value="Mannual">Manual Car</option>
-                <option value="Automatic">Automatic Car</option>
-            </select>
-            <br><br><button id="sub" type="submit ">Calculate the Selling Price</button>
-            <br>
+	<div class="container"><br>
+		
+		<div class="col-lg-6 m-auto d-block">
+			
+			<form onsubmit="return validation()" action="{{ url_for('predict')}}" method="post" class="bg-light">
+				
+				<div class="form-group">
+					<label for="user" class="font-weight-bold"> Purchase Year? </label>
+					<input type="number" name="Year" class="form-control" id="Year" >
+					<span id="Years" class="text-danger font-weight-bold"> </span>
+				</div>
+
+				<div class="form-group">
+					<label class="font-weight-bold"> Kilometers Driven? </label>
+					<input type="number" name="Kms_Driven" class="form-control" id="Kms_Driven" >
+					<span id="kms" class="text-danger font-weight-bold"> </span>
+				</div>
+
+				<div class="form-group">
+					<label class="font-weight-bold"> Mileage(Kmpl or Km/kg)? </label>
+					<input type="number" step="any" name="Mileage" class="form-control" id="Mileage" >
+					<span id="mlgs" class="text-danger font-weight-bold"> </span>
+				</div>
+
+				<div class="form-group">
+					<label class="font-weight-bold"> Engine(CC)? </label>
+					<input type="number" name="Engine" class="form-control" id="Engine" >
+					<span id="engns" class="text-danger font-weight-bold"> </span>
+				</div>
+
+				<div class="form-group">
+					<label class="font-weight-bold"> Max Power(bhp)? </label>
+					<input type="number" step="any" name="Max_Power" class="form-control" id="Max_Power" >
+					<span id="mxps" class="text-danger font-weight-bold"> </span>
+				</div>
+
+				<div class="form-group">
+					<label class="font-weight-bold"> No of Seats? </label>
+					<select name="Seats" id="Seats" class="form-control" required="required">
+						<option value="2">2</option>
+						<option value="4">4</option>
+						<option value="5">5</option>
+						<option value="6">6</option>
+						<option value="7">7</option>
+						<option value="8">8</option>
+						<option value="9">9</option>
+						<option value="10">10</option>
+						<option value="14">14</option>
+					</select>
+					
+					<!-- <input type="number" name="Seats" class="form-control" id="Seats" > -->
+					<span id="sets" class="text-danger font-weight-bold"> </span>
+				</div>
+
+				<div class="form-group">
+					<label class="font-weight-bold"> Torque(Nm)? </label>
+					<input type="number" step="any" name="Torque_Nm" class="form-control" id="Torque_Nm" >
+					<span id="tqs" class="text-danger font-weight-bold"> </span>
+				</div>
+
+				<div class="form-group">
+                    <label class="font-weight-bold"> Fuel Type? </label>
+                    <select name="Fuel_Type_Petrol" id="fuel" class="form-control" required="required">
+						<option value="Petrol">Petrol</option>
+						<option value="Diesel">Diesel</option>
+						<option value="CNG">CNG</option>
+						<option value="LPG">LPG</option>
+					</select>
+                </div>
+
+                <div class="form-group">
+                    <label class="font-weight-bold"> Are you A Dealer or Individual? </label>
+                    <select name="Seller_Type_Individual" id="resea" class="form-control" required="required">
+						<option value="Dealer">Dealer</option>
+						<option value="Individual">Individual</option>
+						<option value="Trustmark Dealer">Trust_Dealer</option>
+					</select>
+                </div>
+
+                <div class="form-group">
+                    <label class="font-weight-bold"> Transmission Type? </label>
+                    <select name="Transmission_Mannual" id="research" class="form-control" required="required">
+						<option value="Mannual">Manual Car</option>
+						<option value="Automatic">Automatic Car</option>
+					</select>
+                </div>
+
+                <br>
+				<input type="submit" name="submit" value="Submit" class="btn btn-success" 	autocomplete="off">
+				
+				<h3> {{ prediction_text }}</h3>
 
 
+			</form><br><br>
 
 
-        </form>
-
-
-
-        <br><br><h3>{{ prediction_text }}<h3>
+		</div>
+		
     </div>
 
+    
+	
 
 
 
-    <style>
-        body {
-            background-color: powderblue;
-            text-align: center;
-            padding: 0px;
-        }
-        
-        #research {
-            font-size: 18px;
-            width: 100px;
-            height: 23px;
-            top: 23px;
-        }
-        
-        #box {
-            border-radius: 60px;
-            border-color: 45px;
-            border-style: solid;
-            font-family: cursive;
-            text-align: center;
-            background-color: rgb(168, 131, 61);
-            font-size: medium;
-            position: absolute;
-            width: 700px;
-            bottom: 9%;
-            height: 850px;
-            right: 30%;
-            padding: 0px;
-            margin: 0px;
-            font-size: 14px;
-        }
-        
-        #fuel {
-            width: 83px;
-            height: 43px;
-            text-align: center;
-            border-radius: 14px;
-            font-size: 20px;
-        }
-        
-        #fuel:hover {
-            background-color: coral;
-        }
-        
-        #research {
-            width: 99px;
-            height: 43px;
-            text-align: center;
-            border-radius: 14px;
-            font-size: 18px;
-        }
-        
-        #research:hover {
-            background-color: coral;
-        }
-        
-        #resea {
-            width: 99px;
-            height: 43px;
-            text-align: center;
-            border-radius: 14px;
-            font-size: 18px;
-        }
-        
-        #resea:hover {
-            background-color: coral;
-        }
-        
-        #sub {
-            width: 120px;
-            height: 43px;
-            text-align: center;
-            border-radius: 14px;
-            font-size: 18px;
-        }
-        
-        #sub:hover {
-            background-color: darkcyan;
-        }
-        
-        #first {
-            border-radius: 14px;
-            height: 25px;
-            font-size: 20px;
-            text-align: center;
-        }
-        
-        #second {
-            border-radius: 14px;
-            height: 25px;
-            font-size: 20px;
-            text-align: center;
-        }
-        
-        #third {
-            border-radius: 14px;
-            height: 25px;
-            font-size: 20px;
-            text-align: center;
-        }
-        
-        #fourth {
-            border-radius: 14px;
-            height: 25px;
-            font-size: 20px;
-            text-align: center;
-        }
-    </style>
+	<script type="text/javascript">
+		
+
+		function validation(){
+
+			var year = document.getElementById('Year').value;
+			var kmss = document.getElementById('Kms_Driven').value;
+			var milege = document.getElementById('Mileage').value;
+			var engn = document.getElementById('Engine').value;
+			var mxpr = document.getElementById('Max_Power').value;
+			var seatss = document.getElementById('Seats').value;
+			var tornm = document.getElementById('Torque_Nm').value;
+
+
+
+
+			if(year == ""){
+				document.getElementById('Years').innerHTML =" ** Please Fill  Year Field **";
+				return false;
+			}
+
+			if(year <= 1983 || year >=2020){
+				document.getElementById('Years').innerHTML =" ** Please Enter Year between 1983 - 2020 **";
+				return false;
+			}
+
+			if(kmss == ""){
+				document.getElementById('kms').innerHTML =" ** Please Fill Kilometers Driven Field **";
+				return false;
+			}
+
+			if(kmss <= 1000 || kmss >= 2360457){
+				document.getElementById('kms').innerHTML =" ** Please Enter Km between 1000 - 2360457 **";
+				return false;
+			}
+
+			if(milege == ""){
+				document.getElementById('mlgs').innerHTML =" ** Please Fill  Mileage Field **";
+				return false;
+			}
+
+			if(milege <= 9 || milege >= 42 ){
+				document.getElementById('mlgs').innerHTML =" ** Please Enter Mileage between 9 - 42 **";
+				return false;
+			}
+
+			if(engn == ""){
+				document.getElementById('engns').innerHTML =" ** Please Fill Engine Field **";
+				return false;
+			}
+
+			if(engn <= 75 || engn >= 3604 ){
+				document.getElementById('engns').innerHTML =" ** Please Enter Value between 75 - 3604 **";
+				return false;
+			}
+
+			if(mxpr == ""){
+				document.getElementById('mxps').innerHTML =" ** Please Fill Max-Power Field **";
+				return false;
+			}
+
+			if(mxpr <= 33 || mxpr >= 1248 ){
+				document.getElementById('mxps').innerHTML =" ** Please Enter Value between 33 - 1248 **";
+				return false;
+			}
+
+
+			
+
+			// if(seatss == ""){
+			// 	document.getElementById('sets').innerHTML =" ** Please Fill Seats Field **";
+			// 	return false;
+			// }
+
+			
+			// if(seatss != 2 ||seatss != 4  || seatss != 5 || seatss != 6 || seatss != 7 || seatss != 8 || seatss != 9 || seatss != 10 || seatss != 14 ){
+			// 	document.getElementById('sets').innerHTML =" ** Please Enter Value between 2, 4, 5, 6, 7, 8, 9, 10, 14 **";
+			// 	return false;
+			// }
+
+
+
+			// if(seatss != 2){
+			// 	document.getElementById('sets').innerHTML =" ** Please Enter Value between 2, 4, 5, 6, 7, 8, 9, 10, 14 **";
+			// 	return false;
+			// }
+			
+			// if(seatss != 4){
+			// 	document.getElementById('sets').innerHTML =" ** Please Enter Value between 2, 4, 5, 6, 7, 8, 9, 10, 14 **";
+			// 	return false;
+			// }
+			
+			// if(seatss != 5){
+			// 	document.getElementById('sets').innerHTML =" ** Please Enter Value between 2, 4, 5, 6, 7, 8, 9, 10, 14 **";
+			// 	return false;
+			// }
+			
+			// if(seatss != 6){
+			// 	document.getElementById('sets').innerHTML =" ** Please Enter Value between 2, 4, 5, 6, 7, 8, 9, 10, 14 **";
+			// 	return false;
+			// }
+			
+			// if(seatss != 7){
+			// 	document.getElementById('sets').innerHTML =" ** Please Enter Value between 2, 4, 5, 6, 7, 8, 9, 10, 14 **";
+			// 	return false;
+			// }
+			
+			// if(seatss != 8){
+			// 	document.getElementById('sets').innerHTML =" ** Please Enter Value between 2, 4, 5, 6, 7, 8, 9, 10, 14 **";
+			// 	return false;
+			// }
+			
+			// if(seatss != 9){
+			// 	document.getElementById('sets').innerHTML =" ** Please Enter Value between 2, 4, 5, 6, 7, 8, 9, 10, 14 **";
+			// 	return false;
+			// }
+			
+			// if(seatss != 10){
+			// 	document.getElementById('sets').innerHTML =" ** Please Enter Value between 2, 4, 5, 6, 7, 8, 9, 10, 14 **";
+			// 	return false;
+			// }
+			
+			// if(seatss != 14){
+			// 	document.getElementById('sets').innerHTML =" ** Please Enter Value between 2, 4, 5, 6, 7, 8, 9, 10, 14 **";
+			// 	return false;
+			// }
+
+
+
+
+
+
+			if(tornm == ""){
+				document.getElementById('tqs').innerHTML =" ** Please Fill Torque Field **";
+				return false;
+			}
+
+			if(tornm <= 10 || tornm >= 3726 ){
+				document.getElementById('tqs').innerHTML =" ** Please Enter Value between 10 - 3726 **";
+				return false;
+			}
+			
+			return true;
+
+
+
+
+
+
+
+
+
+			 
+		}
+
+	</script>
+
 </body>
-
 </html>

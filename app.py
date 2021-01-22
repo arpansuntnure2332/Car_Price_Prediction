@@ -7,6 +7,8 @@ import sklearn
 from sklearn.preprocessing import StandardScaler
 app = Flask(__name__)
 model = pickle.load(open('random_forest_model.pkl', 'rb'))
+
+
 @app.route('/',methods=['GET'])
 def Home():
     return render_template('index.html')
@@ -15,7 +17,8 @@ def Home():
 standard_to = StandardScaler()
 @app.route("/predict", methods=['POST'])
 def predict():
-    Fuel_Type_Diesel=0
+    
+
     if request.method == 'POST':
         Year = int(request.form['Year'])
         
@@ -27,7 +30,27 @@ def predict():
         
         Max_Power=float(request.form['Max_Power'])
         
-        Seats=int(request.form['Seats'])
+        Seatso=int(request.form['Seats'])
+
+        if(Seatso==2):
+            Seats=2
+        elif(Seatso==4):
+            Seats=4
+        elif(Seatso==5):
+            Seats=5
+        elif(Seatso==6):
+            Seats=6
+        elif(Seatso==7):
+            Seats=7
+        elif(Seatso==8):
+            Seats=8
+        elif(Seatso==9):
+            Seats=9
+        elif(Seatso==10):
+            Seats=10
+        else:
+            Seats=14
+
         
         Torque_Nm=float(request.form['Torque_Nm'])
         
@@ -67,6 +90,7 @@ def predict():
             Transmission_Mannual=1
         else:
             Transmission_Mannual=0
+
         prediction=model.predict([[Kms_Driven,Mileage,Engine,Max_Power,Seats,Torque_Nm,Year,Fuel_Type_Diesel,Fuel_Type_LPG,Fuel_Type_Petrol,Seller_Type_Individual,Seller_Type_Trustmark_Dealer,Transmission_Mannual]])
         output=round(prediction[0],2)
         if output<0:
